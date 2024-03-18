@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="flex-row hidden">
+      <p>Результаты</p>
+      <div class="timer">
+        <p>Таймер: <span id="time"></span></p>
+      </div>
+    </header>
+    <main>
+      <section id="welcome" class="flex-column">
+        <h1>Кодинг викторина</h1>
+        <p>
+          Добро пожаловать на викторину! Вот краткое описание того как тут всё
+          работает:
+        </p>
+        <ul>
+          <li>
+            После нажатия на кнопку "Старт" запустится таймер и появится первый
+            вопрос;
+          </li>
+          <li>Каждый правильно отвеченный вопрос даёт вам 1 балл;</li>
+          <li>Каждый неправильно отвеченный вопрос отнимает 10 секунд;</li>
+          <li>
+            После ответа на все вопросы вам будет предоставлена возможность
+            сохранить результат.
+          </li>
+        </ul>
+        <button type="button" id="start-button">СТАРТ</button>
+      </section>
+      <section id="questions" class="flex-column hidden">
+        <h3>Тестовый вопрос</h3>
+        <ol>
+          <!-- <li>
+            <button></button>
+          </li>
+          <li><button></button></li>
+          <li><button></button></li>
+          <li><button></button></li> -->
+        </ol>
+        <div class="answer-feedback hidden">
+          <p>Correct!</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 Мой сайт. Все права защищены.</p>
+    </footer>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
