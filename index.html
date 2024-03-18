@@ -9,9 +9,9 @@
   </head>
   <body>
     <header class="flex-row hidden">
-      <p>Результаты</p>
-      <div class="timer">
-        <p>Таймер: <span id="time"></span></p>
+      <button class="highscores-button">Лучшие результаты</button>
+      <div id="timer">
+        <p>Таймер: <span id="time"></span> с.</p>
       </div>
     </header>
     <main>
@@ -26,8 +26,14 @@
             После нажатия на кнопку "Старт" запустится таймер и появится первый
             вопрос;
           </li>
-          <li>Каждый правильно отвеченный вопрос даёт вам 1 балл;</li>
-          <li>Каждый неправильно отвеченный вопрос отнимает 10 секунд;</li>
+          <li>
+            Каждый правильно отвеченный вопрос даёт вам
+            <span id="points"></span> балл;
+          </li>
+          <li>
+            Каждый неправильно отвеченный вопрос отнимает
+            <span id="penalty-time"></span> секунд;
+          </li>
           <li>
             После ответа на все вопросы вам будет предоставлена возможность
             сохранить результат.
@@ -37,17 +43,19 @@
       </section>
       <section id="questions" class="flex-column hidden">
         <h3>Тестовый вопрос</h3>
-        <ol>
-          <!-- <li>
-            <button></button>
-          </li>
-          <li><button></button></li>
-          <li><button></button></li>
-          <li><button></button></li> -->
-        </ol>
+        <ol></ol>
         <div class="answer-feedback hidden">
           <p>Correct!</p>
         </div>
+      </section>
+      <section id="result" class="hidden">
+        <h3>Тест завершён.</h3>
+        <p>Ваш результат: <span id="score"></span></p>
+        <form>
+          <label for="name-input">Введите имя</label>
+          <input type="text" id="name-input" />
+          <button type="confirm">Сохранить</button>
+        </form>
       </section>
     </main>
     <footer>

@@ -111,35 +111,46 @@ const QUIZ_DATA = [
   },
 ];
 
+const TIME_LIMIT = 60;
+const PENALTY_TIME = 10;
+const POINTS_PER_CORRECT_ANSWER = 1;
+
 const quizState = {
+  isRunnig: false,
   curQuestionIndex: 0,
+  timeLeft: TIME_LIMIT,
   score: 0,
 };
 
-const header = document.getElementsByTagName('header')[0];
-const strartButton = document.getElementById('start-button');
-const welcomeSection = document.getElementById('welcome');
-const questionsSection = document.getElementById('questions');
-const question = questionsSection.getElementsByTagName('h3')[0];
-const answers = questionsSection.getElementsByTagName('ol')[0];
+const headerEl = document.getElementsByTagName('header')[0];
+const pointsEl = document.getElementById('points');
+const penaltyTimeEl = document.getElementById('penalty-time');
+const timerEl = document.getElementById('timer');
+const timeEl = document.getElementById('time');
+const strartButtonEl = document.getElementById('start-button');
+const welcomeSectionEl = document.getElementById('welcome');
+const questionsSectionEl = document.getElementById('questions');
+const resultSectionEl = document.getElementById('result');
+const scoreEl = document.getElementById('score');
+const questionEl = questionsSectionEl.getElementsByTagName('h3')[0];
+const answersEl = questionsSectionEl.getElementsByTagName('ol')[0];
 
 const renderQuestion = () => {
-  while (answers.firstChild) {
-    answers.removeChild(answers.firstChild);
+  while (answersEl.firstChild) {
+    answersEl.removeChild(answersEl.firstChild);
   }
   if (quizState.curQuestionIndex === QUIZ_DATA.length) {
-    question.textContent = '';
     return;
   }
   const questionData = QUIZ_DATA[quizState.curQuestionIndex];
-  question.textContent = questionData.question;
+  questionEl.textContent = questionData.question;
   questionData.answers.forEach(answer => {
     const answerLiEl = document.createElement('li');
     const answerButtonEl = document.createElement('button');
     answerButtonEl.addEventListener('click', checkAnswer);
     answerButtonEl.addEventListener('click', renderQuestion);
     answerLiEl.appendChild(answerButtonEl);
-    answers.appendChild(answerLiEl);
+    answersEl.appendChild(answerLiEl);
     answerButtonEl.textContent = answer.text;
     answerButtonEl.setAttribute('data-answer-id', answer.id);
   });
@@ -151,25 +162,62 @@ const checkAnswer = event => {
     answer => answer.id === answerId
   ).correct;
 
-  if (isAnswerCorrect) {
-    quizState.score += 1;
-  } else {
-    punish();
-  }
+  isAnswerCorrect
+    ? (quizState.score += POINTS_PER_CORRECT_ANSWER)
+    : deductPenaltyTime();
 
   console.log(quizState.score);
   quizState.curQuestionIndex += 1;
 };
 
-const punish = () => {
-  //TODO
+const deductPenaltyTime = () => {
+  if (quizState.timeLeft > PENALTY_TIME) {
+    quizState.timeLeft -= PENALTY_TIME;
+  } else {
+    quizState.timeLeft = 0;
+  }
+};
+
+const finishTest = () => {
+  quizState.isRunnig = false;
+  quizState.timeLeft = 0;
+  timeEl.textContent = 0;
+
+  timerEl.classList.add('hidden');
+  questionsSectionEl.classList.add('hidden');
+  resultSectionEl.classList.remove('hidden');
+  timerEl.classList.add('hidden');
+  questionsSectionEl.classList.add('hidden');
+  scoreEl.textContent = quizState.score;
 };
 
 const startQuiz = event => {
-  header.classList.remove('hidden');
-  questionsSection.classList.remove('hidden');
-  welcomeSection.classList.add('hidden');
+  headerEl.classList.remove('hidden');
+  questionsSectionEl.classList.remove('hidden');
+  welcomeSectionEl.classList.add('hidden');
+
   renderQuestion();
+  quizState.isRunnig = true;
+
+  // timeEl.textContent = quizState.timeLeft;
+  const timerId = setInterval(() => {
+    if (
+      quizState.timeLeft <= 0 ||
+      quizState.curQuestionIndex === QUIZ_DATA.length
+    ) {
+      clearInterval(timerId);
+      finishTest();
+    } else {
+      quizState.timeLeft -= 1;
+      timeEl.textContent = quizState.timeLeft;
+    }
+  }, 1000);
 };
 
-strartButton.addEventListener('click', startQuiz);
+const init = () => {
+  pointsEl.textContent = POINTS_PER_CORRECT_ANSWER;
+  penaltyTimeEl.textContent = PENALTY_TIME;
+  strartButtonEl.addEventListener('click', startQuiz);
+};
+
+init();
