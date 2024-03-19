@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="./assets/css/styles.css" />
   </head>
   <body>
-    <header class="flex-row hidden">
+    <header class="flex-row">
       <button class="highscores-button">Лучшие результаты</button>
-      <div id="timer">
+      <div id="timer" class="hidden">
         <p>Таймер: <span id="time"></span> с.</p>
       </div>
     </header>
@@ -42,7 +42,7 @@
         <button type="button" id="start-button">СТАРТ</button>
       </section>
       <section id="questions" class="flex-column hidden">
-        <h4 class="question-text"></h4>
+        <h3 class="question-text"></h3>
         <ol></ol>
         <div class="answer-feedback hidden">
           <p>Correct!</p>
@@ -54,12 +54,26 @@
         <form class="flex-column">
           <div class="flex-row form-inputs">
             <label for="name-input">Введите имя</label>
-            <input type="text" id="name-input" />
+            <input type="text" class="name-input" />
           </div>
           <div class="form-actions">
-            <button type="confirm" class="save-results">Сохранить</button>
+            <button type="confirm" class="save-result">Сохранить</button>
           </div>
         </form>
+      </section>
+      <section id="highscores" class="hidden">
+        <table>
+          <caption>
+            Таблица лучших результатов
+          </caption>
+          <thead>
+            <tr>
+              <td>№</td>
+              <td>Имя</td>
+              <td>Результат</td>
+            </tr>
+          </thead>
+        </table>
       </section>
     </main>
     <footer>

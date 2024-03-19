@@ -3,6 +3,7 @@
   --btn-secondary-color: rgb(159, 185, 220);
   --btn-text-color: whitesmoke;
   --secondary-color: rgb(181, 181, 181);
+  --table-bg: rgb(242, 242, 242);
 }
 
 body {
@@ -162,11 +163,53 @@ main {
   font-size: 1rem;
 }
 
-.save-results {
+.save-result {
   width: 100%;
   padding: 0.5rem;
   background-color: var(--btn-primary-color);
   color: var(--btn-text-color);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3rem auto;
+  border: 0.125rem solid var(--secondary-color);
+}
+
+caption {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.625rem;
+}
+
+thead td {
+  padding: 0.625rem;
+  text-align: left;
+  font-weight: bold;
+  background-color: var(--btn-primary-color);
+  color: var(--btn-text-color);
+  border: 0.125rem solid var(--secondary-color);
+}
+
+tbody td {
+  padding: 0.5rem;
+  border: 0.125rem solid var(--secondary-color);
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--table-bg);
+}
+
+.table-actions {
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.table-actions button {
+  color: var(--btn-text-color);
+  background-color: var(--btn-primary-color);
+  padding: 0.5rem;
 }
 
 footer {

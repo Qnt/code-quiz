@@ -134,6 +134,12 @@ const resultSectionEl = document.getElementById('result');
 const scoreEl = document.getElementById('score');
 const questionEl = document.getElementsByClassName('question-text')[0];
 const answersEl = questionsSectionEl.getElementsByTagName('ol')[0];
+const saveResultButtonEl = document.getElementsByClassName('save-result')[0];
+const nameInputEl = document.getElementsByClassName('name-input')[0];
+const highscoresButtonEl =
+  document.getElementsByClassName('highscores-button')[0];
+const highscoresSectionEl = document.getElementById('highscores');
+const highscoresTableEl = highscoresSectionEl.getElementsByTagName('table')[0];
 
 const renderQuestion = () => {
   while (answersEl.firstChild) {
@@ -177,35 +183,53 @@ const deductPenaltyTime = () => {
   }
 };
 
-const finishTest = () => {
+const saveResult = event => {
+  event.preventDefault();
+
+  const highscores = JSON.parse(localStorage.getItem('highscores')) ?? [];
+  highscores.push({ name: nameInputEl.value, score: quizState.score });
+  highscores.sort((a, b) => b.score - a.score);
+
+  localStorage.setItem('highscores', JSON.stringify(highscores));
+  showHighscores();
+};
+
+const finishQuiz = () => {
   quizState.isRunnig = false;
   quizState.timeLeft = 0;
   timeEl.textContent = 0;
 
+  highscoresButtonEl.classList.remove('hidden');
   timerEl.classList.add('hidden');
   questionsSectionEl.classList.add('hidden');
   resultSectionEl.classList.remove('hidden');
   timerEl.classList.add('hidden');
   questionsSectionEl.classList.add('hidden');
   scoreEl.textContent = quizState.score;
+
+  saveResultButtonEl.addEventListener('click', saveResult);
 };
 
 const startQuiz = event => {
-  headerEl.classList.remove('hidden');
+  highscoresButtonEl.classList.add('hidden');
+  timerEl.classList.remove('hidden');
   questionsSectionEl.classList.remove('hidden');
   welcomeSectionEl.classList.add('hidden');
 
-  renderQuestion();
+  quizState.timeLeft = TIME_LIMIT;
   quizState.isRunnig = true;
+  quizState.curQuestionIndex = 0;
+  quizState.score = 0;
+  renderQuestion();
 
   timeEl.textContent = quizState.timeLeft;
-  const timerId = setInterval(() => {
+  const intervalId = setInterval(() => {
     if (
       quizState.timeLeft <= 0 ||
       quizState.curQuestionIndex === QUIZ_DATA.length
     ) {
-      clearInterval(timerId);
-      finishTest();
+      clearInterval(intervalId);
+      finishQuiz();
     } else {
       quizState.timeLeft -= 1;
       timeEl.textContent = quizState.timeLeft;
@@ -213,9 +237,81 @@ const startQuiz = event => {
   }, 1000);
 };
 
+const showHighscores = () => {
+  const curHighscoresTableBodyEl =
+    highscoresTableEl.getElementsByTagName('tbody');
+
+  if (curHighscoresTableBodyEl) {
+    for (let el of curHighscoresTableBodyEl) {
+      el.remove();
+    }
+  }
+
+  headerEl.classList.add('hidden');
+  welcomeSectionEl.classList.add('hidden');
+  questionsSectionEl.classList.add('hidden');
+  resultSectionEl.classList.add('hidden');
+  highscoresSectionEl.classList.remove('hidden');
+
+  const highscoresTableBodyEl = document.createElement('tbody');
+  highscoresTableEl.appendChild(highscoresTableBodyEl);
+
+  const highscores = JSON.parse(localStorage.getItem('highscores'));
+  highscores.forEach((item, i) => {
+    const rowEl = document.createElement('tr');
+    const numberCellEl = document.createElement('td');
+    numberCellEl.textContent = i + 1;
+    const nameCellEl = document.createElement('td');
+    nameCellEl.textContent = item.name;
+    const scoreCellEl = document.createElement('td');
+    scoreCellEl.textContent = item.score;
+    rowEl.appendChild(numberCellEl);
+    rowEl.appendChild(nameCellEl);
+    rowEl.appendChild(scoreCellEl);
+    highscoresTableBodyEl.appendChild(rowEl);
+  });
+};
+
+const renderHighscoreTableButtons = () => {
+  const curTableActionsContainer =
+    highscoresTableEl.querySelector('table-actions');
+
+  if (curTableActionsContainer) {
+    curTableActionsContainer.remove();
+  }
+
+  const tableActionsContainer = document.createElement('div');
+  tableActionsContainer.classList.add('flex-row', 'table-actions');
+
+  const resetHighscoresButtonEl = document.createElement('button');
+  resetHighscoresButtonEl.textContent = 'Сбросить результаты';
+  resetHighscoresButtonEl.addEventListener('click', resetHighscores);
+  tableActionsContainer.appendChild(resetHighscoresButtonEl);
+
+  const goToWelcomeButtonEl = document.createElement('button');
+  goToWelcomeButtonEl.textContent = 'Вернуться на главную';
+  goToWelcomeButtonEl.addEventListener('click', goToWelcome);
+  tableActionsContainer.appendChild(goToWelcomeButtonEl);
+
+  highscoresSectionEl.appendChild(tableActionsContainer);
+};
+
+const resetHighscores = () => {
+  localStorage.setItem('highscores', JSON.stringify([]));
+  showHighscores();
+};
+
+const goToWelcome = () => {
+  headerEl.classList.remove('hidden');
+  welcomeSectionEl.classList.remove('hidden');
+  highscoresSectionEl.classList.add('hidden');
+};
+
 const init = () => {
   pointsEl.textContent = POINTS_PER_CORRECT_ANSWER;
   penaltyTimeEl.textContent = PENALTY_TIME;
+  renderHighscoreTableButtons();
+  highscoresButtonEl.addEventListener('click', showHighscores);
   strartButtonEl.addEventListener('click', startQuiz);
 };
 
