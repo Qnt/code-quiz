@@ -132,7 +132,7 @@ const welcomeSectionEl = document.getElementById('welcome');
 const questionsSectionEl = document.getElementById('questions');
 const resultSectionEl = document.getElementById('result');
 const scoreEl = document.getElementById('score');
-const questionEl = questionsSectionEl.getElementsByTagName('h3')[0];
+const questionEl = document.getElementsByClassName('question-text')[0];
 const answersEl = questionsSectionEl.getElementsByTagName('ol')[0];
 
 const renderQuestion = () => {
@@ -166,7 +166,6 @@ const checkAnswer = event => {
     ? (quizState.score += POINTS_PER_CORRECT_ANSWER)
     : deductPenaltyTime();
 
-  console.log(quizState.score);
   quizState.curQuestionIndex += 1;
 };
 
@@ -199,7 +198,7 @@ const startQuiz = event => {
   renderQuestion();
   quizState.isRunnig = true;
 
-  // timeEl.textContent = quizState.timeLeft;
+  timeEl.textContent = quizState.timeLeft;
   const timerId = setInterval(() => {
     if (
       quizState.timeLeft <= 0 ||

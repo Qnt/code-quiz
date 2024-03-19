@@ -42,19 +42,23 @@
         <button type="button" id="start-button">СТАРТ</button>
       </section>
       <section id="questions" class="flex-column hidden">
-        <h3>Тестовый вопрос</h3>
+        <h4 class="question-text"></h4>
         <ol></ol>
         <div class="answer-feedback hidden">
           <p>Correct!</p>
         </div>
       </section>
-      <section id="result" class="hidden">
+      <section id="result" class="flex-column hidden">
         <h3>Тест завершён.</h3>
         <p>Ваш результат: <span id="score"></span></p>
-        <form>
-          <label for="name-input">Введите имя</label>
-          <input type="text" id="name-input" />
-          <button type="confirm">Сохранить</button>
+        <form class="flex-column">
+          <div class="flex-row form-inputs">
+            <label for="name-input">Введите имя</label>
+            <input type="text" id="name-input" />
+          </div>
+          <div class="form-actions">
+            <button type="confirm" class="save-results">Сохранить</button>
+          </div>
         </form>
       </section>
     </main>
