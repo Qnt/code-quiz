@@ -14,7 +14,7 @@
         <p>Таймер: <span id="time"></span> с.</p>
       </div>
     </header>
-    <main>
+    <main class="flex-column">
       <section id="welcome" class="flex-column">
         <h1>Кодинг викторина</h1>
         <p>
@@ -39,15 +39,15 @@
             сохранить результат.
           </li>
         </ul>
-        <button type="button" id="start-button">СТАРТ</button>
+        <button type="button" class="start-button">СТАРТ</button>
       </section>
       <section id="questions" class="flex-column hidden">
         <h3 class="question-text"></h3>
-        <ol></ol>
+        <ol class="answers"></ol>
         <p class="answer-feedback hidden">Correct!</p>
       </section>
       <section id="result" class="flex-column hidden">
-        <h3>Тест завершён.</h3>
+        <h3>Тест завершён</h3>
         <p>Ваш результат: <span id="score"></span></p>
         <form class="flex-column">
           <div class="flex-row form-inputs">
@@ -59,7 +59,7 @@
           </div>
         </form>
       </section>
-      <section id="highscores" class="hidden">
+      <section id="highscores" class="flex-column hidden">
         <table>
           <caption>
             Таблица лучших результатов

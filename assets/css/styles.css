@@ -1,6 +1,7 @@
 :root {
-  --btn-primary-color: rgb(32, 104, 177);
+  --btn-primary-color: rgb(35, 127, 219);
   --btn-secondary-color: rgb(159, 185, 220);
+  --btn-acsent-color: rgb(1, 89, 176);
   --btn-text-color: whitesmoke;
   --secondary-color: rgb(181, 181, 181);
   --table-bg: rgb(242, 242, 242);
@@ -46,6 +47,11 @@ button {
   cursor: pointer;
 }
 
+body button:hover {
+  background-color: var(--btn-acsent-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .highscores-button {
   border-radius: 2px;
   background-color: var(--btn-secondary-color);
@@ -54,9 +60,8 @@ button {
 }
 
 main {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 0 3rem;
 }
 
@@ -74,7 +79,7 @@ main {
   padding-left: 1rem;
 }
 
-#welcome button {
+.start-button {
   margin: 1rem auto;
   padding: 1rem;
   min-width: 50%;
@@ -86,6 +91,7 @@ main {
 
 #questions {
   margin: 3rem auto;
+  max-width: 800px;
 }
 
 .flex-column {
@@ -101,7 +107,7 @@ main {
   margin-bottom: 0.5rem;
 }
 
-#questions ol {
+.answers {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -109,7 +115,7 @@ main {
   min-width: 100%;
 }
 
-#questions button {
+.answers button {
   background-color: var(--btn-primary-color);
   color: var(--btn-text-color);
   width: 100%;
@@ -139,6 +145,7 @@ main {
 
 #result {
   margin: 3rem auto;
+  max-width: 800px;
 }
 
 #result h3 {
@@ -202,13 +209,13 @@ tbody tr:nth-child(even) {
 
 .table-actions {
   justify-content: space-between;
-  gap: 1rem;
 }
 
 .table-actions button {
   color: var(--btn-text-color);
   background-color: var(--btn-primary-color);
   padding: 0.5rem;
+  width: 47%;
 }
 
 footer {
