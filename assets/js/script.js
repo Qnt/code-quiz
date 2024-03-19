@@ -140,6 +140,7 @@ const highscoresButtonEl =
   document.getElementsByClassName('highscores-button')[0];
 const highscoresSectionEl = document.getElementById('highscores');
 const highscoresTableEl = highscoresSectionEl.getElementsByTagName('table')[0];
+const answerFeedbackEl = document.getElementsByClassName('answer-feedback')[0];
 
 const renderQuestion = () => {
   while (answersEl.firstChild) {
@@ -168,14 +169,24 @@ const checkAnswer = event => {
     answer => answer.id === answerId
   ).correct;
 
-  isAnswerCorrect
-    ? (quizState.score += POINTS_PER_CORRECT_ANSWER)
-    : deductPenaltyTime();
+  isAnswerCorrect ? reward() : punish();
 
+  answerFeedbackEl.classList.remove('hidden');
+
+  setTimeout(() => {
+    answerFeedbackEl.classList.add('hidden');
+  }, 1000);
   quizState.curQuestionIndex += 1;
 };
 
-const deductPenaltyTime = () => {
+const reward = () => {
+  quizState.score += POINTS_PER_CORRECT_ANSWER;
+  answerFeedbackEl.textContent = 'Верно!';
+};
+
+const punish = () => {
+  answerFeedbackEl.textContent = 'Неверно!';
+
   if (quizState.timeLeft > PENALTY_TIME) {
     quizState.timeLeft -= PENALTY_TIME;
   } else {

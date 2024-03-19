@@ -133,9 +133,8 @@ main {
   background-color: var(--secondary-color);
 }
 
-.answer-feedback p {
+.answer-feedback {
   font-style: italic;
-  /* display: none; */
 }
 
 #result {
