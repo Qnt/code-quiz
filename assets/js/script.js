@@ -196,13 +196,14 @@ const punish = () => {
 
 const saveResult = event => {
   event.preventDefault();
+  if (nameInputEl.value) {
+    const highscores = JSON.parse(localStorage.getItem('highscores')) ?? [];
+    highscores.push({ name: nameInputEl.value, score: quizState.score });
+    highscores.sort((a, b) => b.score - a.score);
 
-  const highscores = JSON.parse(localStorage.getItem('highscores')) ?? [];
-  highscores.push({ name: nameInputEl.value, score: quizState.score });
-  highscores.sort((a, b) => b.score - a.score);
-
-  localStorage.setItem('highscores', JSON.stringify(highscores));
-  showHighscores();
+    localStorage.setItem('highscores', JSON.stringify(highscores));
+    showHighscores();
+  }
 };
 
 const finishQuiz = () => {
